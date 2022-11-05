@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users</title>
+  </head>
+  <body>
+    <h1>LOG IN</h1>
+    {% if messege %}
+    <div>{{ messege }}</div>
+    {% endif %}
+
+    <form action="login" method="post">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="username" />
+      <input type="password" name="password" placeholder="password" />
+      <input type="submit" name="login" value="login" />
+    </form>
+
+    <a href="register">Register Here</a>
+  </body>
+</html>

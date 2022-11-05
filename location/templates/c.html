@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,23 +7,27 @@
     <title>Document</title>
   </head>
   <body>
-    <center><h1>Hello {{request.user.username}}</h1></center>
-
-    <li><a href="logout">Log Out</a></li>
-    <li><a href="locDetails">more</a></li>
     <script>
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-      }
 
-      // Check for Geolocation API permissions
-      navigator.permissions.query({ name: "geolocation" }).then(function (res) {
-        console.log(res.state);
-        res.onchange = function () {
-          console.log(res.state);
-        };
-      });
-      var lat, lon;
+              if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(showPosition);
+            }
+
+              const { state } = await navigator.permissions.query({
+                  name: "geolocation"
+            });
+            switch (state) {
+              case "granted":
+
+                break;
+              case "prompt":
+                console.log('promt')
+                break;
+              case "denied":
+                console.log('failed')
+                break;
+            }
+            var lat, lon;
 
       function sendData(lat, lon) {
         $.ajax({
@@ -40,7 +41,6 @@
           success: function (data) {
             console.log(lat);
             console.log(lon);
-            return true;
           },
         });
       }

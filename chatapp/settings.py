@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=v1eb2kf(fhn#32&sh5d468m5@atgrl)2)(s4@cp9+0x!0ej19
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -69,7 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chatapp.wsgi.application'
-
+AUTH_USER_MODEL = 'location.User'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
