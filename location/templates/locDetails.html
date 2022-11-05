@@ -8,8 +8,13 @@
   </head>
   <body>
     <h1>Hello {{request.user.username}}</h1>
+
+    {% if m %}
+    <div>{{m}}</div>
+    {%else%}
     <h2>your location is</h2>
     <li>latitude is {{l.lat}}</li>
     <li>longitude is {{l.lon}}</li>
+    {% endif %}
   </body>
 </html>

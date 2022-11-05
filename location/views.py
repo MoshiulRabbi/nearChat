@@ -48,6 +48,10 @@ def logout_view(request):
 
 def locDetails(request):
     u = request.user
-    uid = u.user.get().id
-    loca = loc.objects.get(pk=uid)
-    return render(request,"locDetails.html",{'l':loca})
+    if u.user.exists():
+        uid = u.user.get().id
+        loca = loc.objects.get(pk=uid)
+        return render(request,"locDetails.html",{'l':loca})
+    else:
+        m = 'Please turn on GPS'
+        return render(request,"locDetails.html",{'m':m})
