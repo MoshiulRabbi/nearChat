@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -55,3 +55,9 @@ def locDetails(request):
     else:
         m = 'Please turn on GPS'
         return render(request,"locDetails.html",{'m':m})
+
+
+
+def sta(request):
+    allu = get_user_model().objects.all()
+    return render(request,"sta.html",{"allu":allu})
