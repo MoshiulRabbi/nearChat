@@ -94,6 +94,9 @@ def locDetails(request):
 
         #get current users lat/lon
         userLocation = (loca.lat,loca.lon)
+
+        #get allCoor without users coor
+        allLoc = allLoc.exclude(lat=loca.lat)
         
         #ranges
         ranges = 2
@@ -109,6 +112,8 @@ def locDetails(request):
             value=a.user
             key=a.user.username
             objectDict[key]=value
+
+            
         return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":objectDict})
     else:
         m = 'Please turn on GPS'
