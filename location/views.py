@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 import json
 import time
 from .models import *
+from geopy.distance import geodesic
 
 
 def index(request):
@@ -46,12 +47,65 @@ def logout_view(request):
 	return render(request, "login.html", {"messege":"LOGGED OUT"})
 
 
+
+#location function
+def closestUser(Allcoor,userCoor,ranges):
+
+    #find all the distance of users
+    nl = []
+    for i in Allcoor:
+        nl.append(round(geodesic(i,userCoor).km,3))
+    
+    #specify certain range
+    sl = []
+    for i in nl:
+        if i < ranges:
+            sl.append(i)
+
+    #find the index of users of certain ranges
+
+    li = []
+    for i in nl:
+        for k in sl:
+            li.append(nl.index(k))
+        break
+
+    #find the final user
+    a = []
+    for i in Allcoor:
+        for k in li:
+            a.append(Allcoor[k])
+        break
+
+    return a
+
 def locDetails(request):
     u = request.user
-    if u.user.exists():
-        uid = u.user.get().id
+    if u.has_related_object():
+        uid = u.id
         loca = loc.objects.get(pk=uid)
-        return render(request,"locDetails.html",{'l':loca})
+     
+        allu = get_user_model().objects.all()
+
+        #get lat/lon of all users
+        allLoc = loc.objects.values_list('lat','lon')
+
+        #get current users lat/lon
+        userLocation = (loca.lat,loca.lon)
+        
+        #ranges
+        ranges = 2
+        cu = closestUser(allLoc,userLocation,ranges)
+
+        #get users of closest location
+
+
+        
+        
+
+
+
+        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu})
     else:
         m = 'Please turn on GPS'
         return render(request,"locDetails.html",{'m':m})

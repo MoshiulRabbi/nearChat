@@ -15,6 +15,17 @@
     <h2>your location is</h2>
     <li>latitude is {{l.lat}}</li>
     <li>longitude is {{l.lon}}</li>
-    {% endif %}
+    <br />
+    {% endif %} {% for users in allu %}
+    <li>{{users.username}}</li>
+    {% endfor %}
+
+    <center>
+      {% for i in ll %}
+      <li>{{i}}</li>
+      {% endfor %}
+      <br />
+      <h1>tet {{test}}</h1>
+    </center>
   </body>
 </html>
