@@ -50,7 +50,7 @@ def logout_view(request):
 
 #location function
 def closestUser(Allcoor,userCoor,ranges):
-
+    
     #find all the distance of users
     nl = []
     for i in Allcoor:
@@ -77,7 +77,9 @@ def closestUser(Allcoor,userCoor,ranges):
             a.append(Allcoor[k])
         break
 
-    return a
+    # remove 
+
+    return li
 
 def locDetails(request):
     u = request.user
@@ -99,13 +101,15 @@ def locDetails(request):
 
         #get users of closest location
 
+        al = loc.objects.all()
 
-        
-        
-
-
-
-        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu})
+        objectDict = {}
+        for i in cu:
+            a = al[i]
+            value=a.user
+            key=a.user.username
+            objectDict[key]=value
+        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":objectDict})
     else:
         m = 'Please turn on GPS'
         return render(request,"locDetails.html",{'m':m})
