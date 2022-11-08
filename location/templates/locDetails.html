@@ -26,7 +26,10 @@
       {% endfor %}
       <br />
       <h1>nearest {{test}}</h1>
-      <h1>{{un}}</h1>
+
+      {% for i in un %}
+      <li>{{i.user.username}}</li>
+      {% endfor %}
     </center>
   </body>
 </html>

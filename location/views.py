@@ -99,22 +99,20 @@ def locDetails(request):
         allLoc = allLoc.exclude(lat=loca.lat)
         
         #ranges
-        ranges = 2
+        ranges = 10
         cu = closestUser(allLoc,userLocation,ranges)
 
         #get users of closest location
 
         al = loc.objects.all()
 
-        objectDict = {}
-        for i in cu:
-            a = al[i]
-            value=a.user
-            key=a.user.username
-            objectDict[key]=value
+        closestU = []
 
+        for i in cu:
+            closestU.append(al[i])
             
-        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":objectDict})
+            
+        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
     else:
         m = 'Please turn on GPS'
         return render(request,"locDetails.html",{'m':m})
