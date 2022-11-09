@@ -18,7 +18,7 @@
             <button class="u-flex js-user-nav">
               <img
                 class="profile-image"
-                src="http://bit.ly/3b6qNEw"
+                src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"
                 alt="Elad Shechter"
               />
               <div class="common-header-content">
@@ -128,7 +128,11 @@
                   alt="Alon Gruss"
                 />
                 <header class="chats-item-header">
-                  <h3 class="chats-item-title">{{users.username}}</h3>
+                  <h3 class="chats-item-title">
+                    <a href="{% url 'chatPage' username=users.username %}"
+                      >{{users.username}}</a
+                    >
+                  </h3>
                   <time class="chats-item-time">Yesterday</time>
                 </header>
                 <div class="chats-item-content">
@@ -161,7 +165,7 @@
                 alt="CSS Masters Israel"
               />
               <div class="common-header-content">
-                <h2 class="common-header-title">CSS Masters Israel</h2>
+                <h2 class="common-header-title">{{other_user.username}}</h2>
                 <p class="common-header-status">Online</p>
               </div>
             </button>

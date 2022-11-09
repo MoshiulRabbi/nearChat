@@ -1,0 +1,161 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CodePen - Reverse Engineering for WhatsApp Web</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- partial:index.partial.html -->
+    <section class="main-grid">
+      <aside class="main-side">
+        <header class="common-header">
+          <div class="common-header-start">
+            <button class="u-flex js-user-nav">
+              <img
+                class="profile-image"
+                src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"
+                alt="Elad Shechter"
+              />
+              <div class="common-header-content">
+                <h1 class="common-header-title">{{request.user.username}}</h1>
+              </div>
+            </button>
+          </div>
+          <nav class="common-nav">
+            <ul class="common-nav-list">
+              <li class="common-nav-item">
+                <button class="common-button">
+                  <span class="icon">🕘</span>
+                </button>
+              </li>
+              <li class="common-nav-item">
+                <button class="common-button">
+                  <span class="icon icon-status">💬</span>
+                </button>
+              </li>
+              <li class="common-nav-item">
+                <button class="common-button">
+                  <span class="icon icon-menu" aria-label="menu"></span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <section class="common-alerts"><!-- optional alert message --></section>
+        <section class="common-search">
+          <input
+            type="search"
+            class="text-input"
+            placeholder="Search or start new chat"
+          />
+        </section>
+        <section class="chats">
+          <ul class="chats-list">
+            <li class="chats-item">
+              <div
+                class="chats-item-button js-chat-button"
+                role="button"
+                tabindex="0"
+              >
+                <img
+                  class="profile-image"
+                  src="https://picsum.photos/200"
+                  alt="Elad Shechter"
+                />
+                <header class="chats-item-header">
+                  <h3 class="chats-item-title">CSS Masters Israel</h3>
+                  <time class="chats-item-time">12:30</time>
+                </header>
+                <div class="chats-item-content">
+                  <p class="chats-item-last">
+                    Beside it yo can follow my twitter account: @eladsc
+                  </p>
+                  <ul class="chats-item-info">
+                    <li class="chats-item-info-item">
+                      <span class="icon-silent">🔇</span>
+                    </li>
+                    <li class="chats-item-info-item">
+                      <span class="unread-messsages"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="chats-item">
+              <div
+                class="chats-item-button js-chat-button"
+                role="button"
+                tabindex="0"
+              >
+                <img
+                  class="profile-image"
+                  src="https://pbs.twimg.com/profile_images/507217425/rachelbyserge_400x400.jpg"
+                  alt="Rachel Bratt Tannenbaum"
+                />
+                <header class="chats-item-header">
+                  <h3 class="chats-item-title">Rachel Bratt Tannenbaum</h3>
+                  <time class="chats-item-time">12:05</time>
+                </header>
+                <div class="chats-item-content">
+                  <p class="chats-item-last">When is our next meetup?</p>
+                  <ul class="chats-item-info">
+                    <li class="chats-item-info-item u-hide">
+                      <span class="icon-silent">🔇</span>
+                    </li>
+                    <li class="chats-item-info-item">
+                      <span class="unread-messsages">1</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            {% for users in allu %}
+            <li class="chats-item">
+              <div
+                class="chats-item-button js-chat-button"
+                role="button"
+                tabindex="0"
+              >
+                <img
+                  class="profile-image"
+                  src="https://scontent.fhfa1-1.fna.fbcdn.net/v/t1.0-1/p480x480/68945154_10157466813344784_6338834733429948416_n.jpg?_nc_cat=103&_nc_sid=7206a8&_nc_ohc=cNR0r4cFIgUAX8zz3be&_nc_ht=scontent.fhfa1-1.fna&_nc_tp=6&oh=4a5d70abaca1964b02be832d4cfe9608&oe=5EE8A96C"
+                  alt="Alon Gruss"
+                />
+                <header class="chats-item-header">
+                  <h3 class="chats-item-title">
+                    <a href="{% url 'chatPage' username=users.username %}"
+                      >{{users.username}}</a
+                    >
+                  </h3>
+                  <time class="chats-item-time">Yesterday</time>
+                </header>
+                <div class="chats-item-content">
+                  <p class="chats-item-last">Great!</p>
+                  <ul class="chats-item-info">
+                    <li class="chats-item-info-item u-hide">
+                      <span class="icon-silent">🔇</span>
+                    </li>
+                    <li class="chats-item-info-item">
+                      <span class="unread-messsages"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+      </aside>
+    </section>
+    <!-- partial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>
