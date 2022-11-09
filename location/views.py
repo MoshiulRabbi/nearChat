@@ -99,7 +99,7 @@ def locDetails(request):
         allLoc = allLoc.exclude(lat=loca.lat)
         
         #ranges
-        ranges = 2000
+        ranges = 2
         cu = closestUser(allLoc,userLocation,ranges)
 
         #get users of closest location
@@ -120,7 +120,6 @@ def locDetails(request):
 
 
 def chat(request):
-    #other_user = User.objects.get(username=username)
     allu = get_user_model()
     authUser = allu.objects.exclude(username=request.user.username)
     return render(request,"chatIndex.html",{"allu":authUser})
