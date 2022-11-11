@@ -24,7 +24,7 @@ def index(request):
         lon=lo,
         user= request.user
 )
-    return render(request, "index.html")
+    return render(request, "location/index.html")
 
 
 def login_view(request):
@@ -37,14 +37,14 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "login.html",{"messege":"Invalid Credentials."})
+            return render(request, "location/login.html",{"messege":"Invalid Credentials."})
     else: 	
-        return render(request, "login.html")
+        return render(request, "location/login.html")
 
 
 def logout_view(request):
 	logout(request)
-	return render(request, "login.html", {"messege":"LOGGED OUT"})
+	return render(request, "location/login.html", {"messege":"LOGGED OUT"})
 
 
 
@@ -112,21 +112,10 @@ def locDetails(request):
             closestU.append(al[i])
             
             
-        return render(request,"locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
+        return render(request,"location/locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
     else:
         m = 'Please turn on GPS'
-        return render(request,"locDetails.html",{'m':m})
+        return render(request,"location/locDetails.html",{'m':m})
 
 
 
-def chat(request):
-    allu = get_user_model()
-    authUser = allu.objects.exclude(username=request.user.username)
-    return render(request,"chatIndex.html",{"allu":authUser})
-
-
-def chatPage(request,username):
-    other_user = User.objects.get(username=username)
-    allu = get_user_model()
-    authUser = allu.objects.exclude(username=request.user.username)
-    return render(request,"chatPage.html",{"allu":authUser,"other_user":other_user})
