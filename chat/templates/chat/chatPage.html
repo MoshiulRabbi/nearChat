@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>CodePen - Reverse Engineering for WhatsApp Web</title>
+    <title>Nearby Chat</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -213,75 +213,49 @@
               <p class="common-message-content">Who are you?</p>
               <time datetime>14:33</time>
             </li>
-            <li class="common-message is-you">
+            <li id="chat-log" class="common-message is-you">
               <p class="common-message-content">
                 I’m Elad Shechter, a Web Developer specializing in CSS & HTML
                 design and architecture.<br /><br />
-
-                A bit more about myself:<br />
-                - Writer of various globally known CSS articles<br />
-                - CSS speaker.<br />
-                - Founder of CSS Masters Israel Community<br /><br />
-
-                You can see more of my stuff on my website
-                <a href="" tarhet="_blank">eladsc.com</a>
               </p>
               <span class="status is-seen">✔️✔️</span>
               <time datetime>14:41</time>
             </li>
-            <li class="common-message is-other">
-              <p class="common-message-content">
-                Who's those peoples on the contact list?
-              </p>
-              <time datetime>14:33</time>
-            </li>
-            <li class="common-message is-you">
-              <p class="common-message-content">
-                These are friends from our comunity "<a href="" target="_blank"
-                  >CSS Masters Israel</a
-                >".<br />
-                Beside it we have anoather global comunity channel, called"
-                <a href="" target="_blank">CSS Masters</a>", if you love CSS,
-                you are all welcome to join.
-              </p>
-              <span class="status">✔️✔️</span>
-              <time datetime>14:34</time>
-            </li>
-            <li class="common-message is-you">
-              <p class="common-message-content">
-                If you want to know how I created reverse engineering to
-                WhatsApp web, you can read my article
-                <a href="" target="_blank"
-                  >"Reverse Engineering WhatsApp Web's CSS"</a
-                >
-              </p>
-              <span class="status">✔️</span>
-              <time datetime>14:43</time>
-            </li>
-            <li class="common-message is-you">
-              <p class="common-message-content">
-                Beside it you can follow me on twitter:<br />
-                <a class="twitter" href=""
-                  ><span class="twitter-user">@eladsc</span></a
-                >
-              </p>
-              <span class="status">✔️</span>
-              <time datetime>14:43</time>
-            </li>
           </ol>
         </div>
         <div class="message-box">
-          <button class="common-button"><span class="icon">😃</span></button>
-          <div
+          <button type="button" class="common-button">
+            <span class="icon">😃</span>
+          </button>
+
+          <!-- <input
             class="text-input"
             id="message-box"
+            type="text"
             placeholder="Type a message"
-            contenteditable
-          ></div>
+          /><br /> -->
+
+          <div class="text-input">
+            <input
+              class="text-input"
+              id="message-box"
+              type="text"
+              placeholder="Type a message"
+            />
+          </div>
+
+          <!-- <div
+            class="text-input"
+            id="message-box"
+            type="text"
+            placeholder="Type a message"
+            contenteditable=""
+          ></div> -->
+
           <button id="voice-button" class="common-button">
             <span class="icon">🎤</span>
           </button>
-          <button id="submit-button" class="common-button">
+          <button type="button" id="submit-button" class="common-button">
             <span class="icon">➤</span>
           </button>
         </div>
@@ -342,16 +316,46 @@
         console.log("CONNECTION ESTABLISHED");
       };
 
-      // const socket = new WebSocket(
-      //   "ws://" + window.location.host + "/ws/" + id + "/"
-      // );
-
       chatSocket.onclose = function (e) {
         console.log("CONNECTION LOST");
       };
+      chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        console.log(data);
+        // document.querySelector("#chat-log").value += data.message + "\n";
 
-      chatSocket.onerror = function (e) {
-        console.log("ERROR OCCURED");
+        document.querySelector(
+          ".messanger-list"
+        ).innerHTML += `<li id="chat-log" class="common-message is-you">
+              <p class="common-message-content">
+                ${data.message}<br /><br />
+              </p>
+              <span class="status is-seen">✔️✔️</span>
+              <time datetime>14:41</time>
+            </li>`;
+      };
+
+      chatSocket.onclose = function (e) {
+        console.error("Chat socket closed unexpectedly");
+      };
+
+      document.querySelector("#message-box").focus();
+      document.querySelector("#message-box").onkeyup = function (e) {
+        if (e.keyCode === 13) {
+          // enter, return
+          document.querySelector("#submit-button").click();
+        }
+      };
+
+      document.querySelector("#submit-button").onclick = function (e) {
+        const messageInputDom = document.querySelector("#message-box");
+        const message = messageInputDom.value;
+        chatSocket.send(
+          JSON.stringify({
+            message: message,
+          })
+        );
+        messageInputDom.value = "";
       };
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
