@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,7 +70,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chatapp.wsgi.application'
+#WSGI_APPLICATION = 'chatapp.wsgi.application'
+ASGI_APPLICATION = 'chatapp.asgi.application'
+
 AUTH_USER_MODEL = 'location.User'
 
 # Database
@@ -113,6 +116,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

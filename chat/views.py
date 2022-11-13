@@ -18,4 +18,4 @@ def chatPage(request,username):
     other_user = User.objects.get(username=username)
     allu = get_user_model()
     authUser = allu.objects.exclude(username=request.user.username)
-    return render(request,"chat/chatPage.html",{"allu":authUser,"other_user":other_user})
+    return render(request,"chat/chatPage.html",{"allu":authUser,"other_user":other_user,"username":username})
