@@ -21,17 +21,29 @@ chatSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
   console.log(data);
 
-  // document.querySelector("#chat-log").value += data.message + "\n";
+  if (data.username == user_id) {
+    // document.querySelector("#chat-log").value += data.message + "\n";
 
-  document.querySelector(
-    ".messanger-list"
-  ).innerHTML += `<li id="chat-log" class="common-message is-you">
+    document.querySelector(
+      ".messanger-list"
+    ).innerHTML += `<li id="chat-log" class="common-message is-you">
         <p class="common-message-content">
           ${data.message}<br /><br />
         </p>
         <span class="status is-seen">✔️✔️</span>
         <time datetime>14:41</time>
       </li>`;
+  } else {
+    document.querySelector(
+      ".messanger-list"
+    ).innerHTML += `<li id="chat-log" class="common-message is-other">
+        <p class="common-message-content">
+          ${data.message}<br /><br />
+        </p>
+        <span class="status is-seen">✔️✔️</span>
+        <time datetime>14:41</time>
+      </li>`;
+  }
 };
 
 chatSocket.onclose = function (e) {
