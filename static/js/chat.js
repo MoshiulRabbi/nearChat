@@ -20,6 +20,7 @@ chatSocket.onclose = function (e) {
 chatSocket.onmessage = function (e) {
   const data = JSON.parse(e.data);
   console.log(data);
+
   // document.querySelector("#chat-log").value += data.message + "\n";
 
   document.querySelector(
@@ -51,6 +52,7 @@ document.querySelector("#submit-button").onclick = function (e) {
   chatSocket.send(
     JSON.stringify({
       message: message,
+      username: user_id,
     })
   );
   messageInputDom.value = "";
