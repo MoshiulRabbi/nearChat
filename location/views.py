@@ -83,8 +83,8 @@ def closestUser(Allcoor,userCoor,ranges):
 
 def locDetails(request):
     u = request.user
-    if u.has_related_object():
-        uid = u.id
+    if u.user.exists():
+        uid = u.user.get().id
         loca = loc.objects.get(pk=uid)
      
         allu = get_user_model().objects.all()
@@ -96,7 +96,7 @@ def locDetails(request):
         userLocation = (loca.lat,loca.lon)
 
         #get allCoor without users coor
-        allLoc = allLoc.exclude(lat=loca.lat)
+        #allLoc = allLoc.exclude(lat=loca.lat)
         
         #ranges
         ranges = 2
@@ -111,7 +111,8 @@ def locDetails(request):
         for i in cu:
             closestU.append(al[i])
             
-            
+        #filteredUser = al.filter(id__in=[al[i].id for i in cu])
+
         return render(request,"location/locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
     else:
         m = 'Please turn on GPS'

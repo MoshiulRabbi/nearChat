@@ -1,15 +1,17 @@
-//id of the user
-const id = JSON.parse(document.getElementById("user-name").textContent);
+//id of the other user, name for now
+const other_user_id = JSON.parse(
+  document.getElementById("other_user_id").textContent
+);
 
-// const message_username = JSON.parse(
-//   document.getElementById("json-message-username").textContent
-// );
+// id of the user id, name for now
+const user_id = JSON.parse(document.getElementById("user_id").textContent);
 
 const chatSocket = new WebSocket(
-  "ws://" + window.location.host + "/ws/" + id + "/"
+  "ws://" + window.location.host + "/ws/" + other_user_id + "/"
 );
 chatSocket.onopen = function (e) {
-  console.log("CONNECTION ESTABLISHED");
+  console.log(user_id);
+  console.log(other_user_id);
 };
 
 chatSocket.onclose = function (e) {

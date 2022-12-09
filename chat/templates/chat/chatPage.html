@@ -302,8 +302,13 @@
     </section>
     <!-- partial -->
     <!-- {{other_user.id|json_script:"json-username"}}
-    {{request.user.username|json_script:"json-message-username"}}  -->
-    {{ username|json_script:"user-name" }}
+    {{request.user.username|json_script:"json-message-username"}}  
+  
+    here username is the other user name for now
+  -->
+
+    {{ username|json_script:"other_user_id" }}
+    {{request.user.username|json_script:"user_id"}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
