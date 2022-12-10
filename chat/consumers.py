@@ -8,29 +8,22 @@ from .models import Message
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
-
-
-
     async def connect(self):
         # Get the user id from the scope
         user_id = self.scope['user'].id
 
         # Get the other user id from the URL route
-        other_user_id = self.scope['url_route']['kwargs']['other_user_id']
-
-
-
-        uuid = await self.get_user(other_user_id)
-
-
-
+        other_user_name = self.scope['url_route']['kwargs']['other_user_name']
+        uuid = await self.get_user(other_user_name)
 
         # Save the user id and other user id for later use
         self.user_id = user_id
-        self.other_user_id = other_user_id
+        self.other_user_name = other_user_name
         self.uuid = uuid
 
 
+        #alternative room id methon idea
+        #self.chat_group_name = (''.join(set(user_name + other_user_name)))
 
         # Create a group for the chat
         if user_id > uuid:
@@ -40,18 +33,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         self.chat_group_name = 'chat_%s' % self.chat_group_name
 
+
         await self.channel_layer.group_add(
             self.chat_group_name,
             self.channel_name
         )
-
-
-
-
-        # # Create a group for the chat, to do 
-        # self.chat_group_name = 'chat_%s_%s' % (self.user_id, self.other_user_id)
-
-        # self.chat_group_name = "chat_%s" % self.other_user_id
 
         # Join room group
         await self.channel_layer.group_add(self.chat_group_name, self.channel_name)
@@ -66,13 +52,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     # Receive message from WebSocket
     async def receive(self, text_data):
+
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         #now id
         username = text_data_json['username']
 
-
-        await self.save_message(username, self.other_user_id, message,self.chat_group_name)
+        await self.save_message(username, self.other_user_name, message,self.chat_group_name)
 
 
         # Send message to room group

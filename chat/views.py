@@ -19,6 +19,9 @@ def chat(request):
 def chatPage(request,username):
     other_user = User.objects.get(username=username) #to show the name
 
+    #todo
+    # thread_name = (''.join(set(request.user.username + other_user)))
+
     if request.user.id > other_user.id:
         thread_name = f'chat_{request.user.id}-{other_user.id}'
     else:

@@ -240,7 +240,7 @@
     here username is the other user name for now
   -->
 
-    {{ username|json_script:"other_user_id" }}
+    {{ username|json_script:"other_user_name" }}
     {{request.user.username|json_script:"user_id"}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
