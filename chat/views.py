@@ -6,24 +6,23 @@ from location.views import findClosestFun
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from .models import Message
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
+@login_required
 def chat(request):
-    allu = get_user_model()
-    authUser = allu.objects.exclude(username=request.user.username)
-    return render(request,"chat/chatIndex.html",{"allu":authUser})
+    closest_users = findClosestFun(request)
+    return render(request, 'chat/chatIndex.html', {'closest_users': closest_users})
 
-
+@login_required
 def chatPage(request,username):
     other_user = User.objects.get(username=username) #to show the name
-    # allu = get_user_model()
-    # authUser = allu.objects.exclude(username=request.user.username)
 
     if request.user.id > other_user.id:
         thread_name = f'chat_{request.user.id}-{other_user.id}'
     else:
         thread_name = f'chat_{other_user.id}-{request.user.id}'
-
     message_objs = Message.objects.filter(thread_name=thread_name)
 
     closestUser = findClosestFun(request)

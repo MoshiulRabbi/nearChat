@@ -138,19 +138,24 @@
         <div class="messanger">
           <ol class="messanger-list">
             <li class="common-message is-time">
-              <p class="common-message-content">Today</p>
+              <p class="common-message-content">Today{{message.sender}}</p>
             </li>
+            {% for message in message %}
+            {% if message.sender == request.user.username %}
+
             <li class="common-message is-you">
-              <p class="common-message-content">
-                This is my CSS/HTML Revers Engineering for WhatsApp
-              </p>
+              <p class="common-message-content">{{message.message}}</p>
               <span class="status is-seen">✔️✔️</span>
               <time datetime>14:11</time>
             </li>
+            {% else %}
+            
             <li class="common-message is-other">
-              <p class="common-message-content">Who are you? {{thread_name}}</p>
+              <p class="common-message-content">{{message.message}}</p>
               <time datetime>14:33</time>
             </li>
+            {% endif %}
+            {% endfor %}
           </ol>
         </div>
         <div class="message-box">

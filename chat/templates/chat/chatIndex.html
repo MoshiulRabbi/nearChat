@@ -56,66 +56,7 @@
         </section>
         <section class="chats">
           <ul class="chats-list">
-            <li class="chats-item">
-              <div
-                class="chats-item-button js-chat-button"
-                role="button"
-                tabindex="0"
-              >
-                <img
-                  class="profile-image"
-                  src="https://picsum.photos/200"
-                  alt="Elad Shechter"
-                />
-                <header class="chats-item-header">
-                  <h3 class="chats-item-title">CSS Masters</h3>
-                  <time class="chats-item-time">12:30</time>
-                </header>
-                <div class="chats-item-content">
-                  <p class="chats-item-last">
-                    Beside it yo can follow my twitter account: @eladsc
-                  </p>
-                  <ul class="chats-item-info">
-                    <li class="chats-item-info-item">
-                      <span class="icon-silent">🔇</span>
-                    </li>
-                    <li class="chats-item-info-item">
-                      <span class="unread-messsages"></span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-            <li class="chats-item">
-              <div
-                class="chats-item-button js-chat-button"
-                role="button"
-                tabindex="0"
-              >
-                <img
-                  class="profile-image"
-                  src="https://picsum.photos/200/300/?blur"
-                  alt="Rachel Bratt Tannenbaum"
-                />
-                <header class="chats-item-header">
-                  <h3 class="chats-item-title">Rachel Bratt Tannenbaum</h3>
-                  <time class="chats-item-time">12:05</time>
-                </header>
-                <div class="chats-item-content">
-                  <p class="chats-item-last">When is our next meetup?</p>
-                  <ul class="chats-item-info">
-                    <li class="chats-item-info-item u-hide">
-                      <span class="icon-silent">🔇</span>
-                    </li>
-                    <li class="chats-item-info-item">
-                      <span class="unread-messsages">1</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-
-            {% for users in allu %}
+            {% for user in closest_users %}
             <li class="chats-item">
               <div
                 class="chats-item-button js-chat-button"
@@ -129,14 +70,16 @@
                 />
                 <header class="chats-item-header">
                   <h3 class="chats-item-title">
-                    <a href="{% url 'chatPage' username=users.username %}"
-                      >{{users.username}}</a
+                    <a href="{% url 'chatPage' username=user.user.username %}"
+                      >{{user.user.username}}</a
                     >
                   </h3>
                   <time class="chats-item-time">Yesterday</time>
                 </header>
                 <div class="chats-item-content">
-                  <p class="chats-item-last">Great!</p>
+                  <p class="chats-item-last">
+                    ({{ user.distance|floatformat:2 }} km away)
+                  </p>
                   <ul class="chats-item-info">
                     <li class="chats-item-info-item u-hide">
                       <span class="icon-silent">🔇</span>
