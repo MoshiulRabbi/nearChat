@@ -133,4 +133,4 @@ def find_closest_users(request):
         if distance <= 11:
             closest_users.append({'user': user_location.user, 'distance': distance})
     closest_users.sort(key=lambda x: x['distance'])
-    return render(request, 'location/locDetails.html', {'closest_users': closest_users})
+    return render(request, 'location/chatIndex.html', {'closest_users': closest_users})
