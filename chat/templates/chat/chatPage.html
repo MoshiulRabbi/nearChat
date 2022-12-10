@@ -56,7 +56,7 @@
         </section>
         <section class="chats">
           <ul class="chats-list">
-            {% for users in allu %}
+            {% for user in closestUser %}
             <li class="chats-item">
               <div
                 class="chats-item-button js-chat-button"
@@ -72,8 +72,8 @@
                   <h3 class="chats-item-title">
                     <a
                       class="chats-item-button js-chat-button"
-                      href="{% url 'chatPage' username=users.username %}"
-                      >{{users.username}}</a
+                      href="{% url 'chatPage' username=user.user.username %}"
+                      >{{user.user.username}}</a
                     >
                   </h3>
                   <time class="chats-item-time">Yesterday</time>
@@ -139,6 +139,17 @@
           <ol class="messanger-list">
             <li class="common-message is-time">
               <p class="common-message-content">Today</p>
+            </li>
+            <li class="common-message is-you">
+              <p class="common-message-content">
+                This is my CSS/HTML Revers Engineering for WhatsApp
+              </p>
+              <span class="status is-seen">✔️✔️</span>
+              <time datetime>14:11</time>
+            </li>
+            <li class="common-message is-other">
+              <p class="common-message-content">Who are you? {{thread_name}}</p>
+              <time datetime>14:33</time>
             </li>
           </ol>
         </div>

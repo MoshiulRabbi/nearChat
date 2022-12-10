@@ -121,16 +121,21 @@ def closestUser(Allcoor,userCoor,ranges):
 #         m = 'Please turn on GPS'
 #         return render(request,"location/locDetails.html",{'m':m})
 
-
-
-@login_required
-def find_closest_users(request):
-    current_location = UserLocation.objects.get(user=request.user)
-    user_locations = UserLocation.objects.exclude(user=request.user)
+def findClosestFun(req):
+    current_location = UserLocation.objects.get(user=req.user)
+    user_locations = UserLocation.objects.exclude(user=req.user)
     closest_users = []
     for user_location in user_locations:
         distance = geodesic((current_location.latitude, current_location.longitude), (user_location.latitude, user_location.longitude)).km
         if distance <= 11:
             closest_users.append({'user': user_location.user, 'distance': distance})
     closest_users.sort(key=lambda x: x['distance'])
+
+    return closest_users
+
+
+
+@login_required
+def find_closest_users(request):
+    closest_users = findClosestFun(request)
     return render(request, 'location/chatIndex.html', {'closest_users': closest_users})
