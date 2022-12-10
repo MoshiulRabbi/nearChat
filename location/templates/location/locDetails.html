@@ -1,35 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Closest Users</title>
   </head>
   <body>
     <h1>Hello {{request.user.username}}</h1>
+    <h2>Closest Users</h2>
 
-    {% if m %}
-    <div>{{m}}</div>
-    {%else%}
-    <h2>your location is</h2>
-    <li>latitude is {{l.lat}}</li>
-    <li>longitude is {{l.lon}}</li>
-    <br />
-    {% endif %} {% for users in allu %}
-    <li>{{users.username}}</li>
-    {% endfor %}
+    {% if closest_users %}
 
-    <center>
-      {% for i in ll %}
-      <li>{{i}}</li>
+    <ul>
+      {% for user in closest_users %}
+      <li>{{ user.user.username }} ({{ user.distance }} km)</li>
+      <li>
+        <a href="#">Start Chat with {{ user.user.username }}</a>
+      </li>
       {% endfor %}
-      <br />
-      <h1>nearest {{test}}</h1>
-
-      {% for i in un %}
-      <li>{{i.user.username}}</li>
-      {% endfor %}
-    </center>
+    </ul>
+    {% else %} No other users within 5 km of your location. {% endif %}
   </body>
 </html>

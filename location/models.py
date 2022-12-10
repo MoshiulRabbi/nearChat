@@ -9,8 +9,7 @@ class User(AbstractUser):
 
     
 # Create your models here.
-class loc(models.Model):
-	lon = models.FloatField(null=True, blank=True, default=None)
-	lat = models.FloatField(null=True, blank=True, default=None)
-	user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user")
-
+class UserLocation(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="user")
+    latitude = models.FloatField()
+    longitude = models.FloatField()

@@ -5,5 +5,5 @@ urlpatterns = [
     path("", views.index, name = "index" ),
     path("login",views.login_view, name = "login"),
     path("logout", views.logout_view, name = "logout" ),
-    path("locDetails/", views.locDetails, name = "locDetails" ),
+    path("locDetails/", views.find_closest_users, name = "locDetails" ),
 ]

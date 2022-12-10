@@ -16,14 +16,17 @@ def index(request):
         return HttpResponseRedirect(reverse("login"))
 
     if request.method == "POST":
-        la = request.POST.get('lat')
-        lo = request.POST.get('lon')
 
-        loc.objects.get_or_create(
-        lat=la,
-        lon=lo,
-        user= request.user
-)
+        latitude = request.POST['lat']
+        longitude = request.POST['lon']
+        user_location, created = UserLocation.objects.get_or_create(
+            user=request.user,
+            defaults={'latitude': latitude, 'longitude': longitude}
+        )
+        if not created:
+            user_location.latitude = latitude
+            user_location.longitude = longitude
+            user_location.save()
     return render(request, "location/index.html")
 
 
@@ -81,42 +84,53 @@ def closestUser(Allcoor,userCoor,ranges):
 
     return li
 
-def locDetails(request):
-    u = request.user
-    if u.user.exists():
-        uid = u.user.get().id
-        loca = loc.objects.get(pk=uid)
+# def locDetails(request):
+#     u = request.user
+#     if u.user.exists():
+#         uid = u.user.get().id
+#         loca = loc.objects.get(pk=uid)
      
-        allu = get_user_model().objects.all()
+#         allu = get_user_model().objects.all()
 
-        #get lat/lon of all users
-        allLoc = loc.objects.values_list('lat','lon')
+#         #get lat/lon of all users
+#         allLoc = loc.objects.values_list('lat','lon')
 
-        #get current users lat/lon
-        userLocation = (loca.lat,loca.lon)
+#         #get current users lat/lon
+#         userLocation = (loca.lat,loca.lon)
 
-        #get allCoor without users coor
-        #allLoc = allLoc.exclude(lat=loca.lat)
+#         #get allCoor without users coor
+#         #allLoc = allLoc.exclude(lat=loca.lat)
         
-        #ranges
-        ranges = 2
-        cu = closestUser(allLoc,userLocation,ranges)
+#         #ranges
+#         ranges = 2
+#         cu = closestUser(allLoc,userLocation,ranges)
 
-        #get users of closest location
+#         #get users of closest location
 
-        al = loc.objects.all()
+#         al = loc.objects.all()
 
-        closestU = []
+#         closestU = []
 
-        for i in cu:
-            closestU.append(al[i])
+#         for i in cu:
+#             closestU.append(al[i])
             
-        #filteredUser = al.filter(id__in=[al[i].id for i in cu])
+#         #filteredUser = al.filter(id__in=[al[i].id for i in cu])
 
-        return render(request,"location/locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
-    else:
-        m = 'Please turn on GPS'
-        return render(request,"location/locDetails.html",{'m':m})
+#         return render(request,"location/locDetails.html",{'l':loca,"allu":allu,'ll':allLoc,'test':cu,"un":closestU})
+#     else:
+#         m = 'Please turn on GPS'
+#         return render(request,"location/locDetails.html",{'m':m})
 
 
 
+@login_required
+def find_closest_users(request):
+    current_location = UserLocation.objects.get(user=request.user)
+    user_locations = UserLocation.objects.exclude(user=request.user)
+    closest_users = []
+    for user_location in user_locations:
+        distance = geodesic((current_location.latitude, current_location.longitude), (user_location.latitude, user_location.longitude)).km
+        if distance <= 11:
+            closest_users.append({'user': user_location.user, 'distance': distance})
+    closest_users.sort(key=lambda x: x['distance'])
+    return render(request, 'location/locDetails.html', {'closest_users': closest_users})
