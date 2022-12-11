@@ -26,23 +26,17 @@ chatSocket.onmessage = function (e) {
 
     document.querySelector(
       ".messanger-list"
-    ).innerHTML += `<li id="chat-log" class="common-message is-you">
-        <p class="common-message-content">
-          ${data.message}<br /><br />
-        </p>
-        <span class="status is-seen">✔️✔️</span>
-        <time datetime>14:41</time>
-      </li>`;
+    ).innerHTML += `<li class="repaly">
+    <p> ${data.message} </p>
+     <span class="time">10:32 am</span>
+    </li>`;
   } else {
     document.querySelector(
       ".messanger-list"
-    ).innerHTML += `<li id="chat-log" class="common-message is-other">
-        <p class="common-message-content">
-          ${data.message}<br /><br />
-        </p>
-        <span class="status is-seen">✔️✔️</span>
-        <time datetime>14:41</time>
-      </li>`;
+    ).innerHTML += `<li class="sender">
+    <p> ${data.message} </p>
+     <span class="time">10:32 am</span>
+    </li>`;
   }
 };
 

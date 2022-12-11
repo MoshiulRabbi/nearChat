@@ -13,11 +13,12 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def chat(request):
     closest_users = findClosestFun(request)
-    return render(request, 'chat/chatIndex.html', {'closest_users': closest_users})
+    return render(request, 'chat/chatIndex2.html', {'closest_users': closest_users})
 
 @login_required
 def chatPage(request,username):
     other_user = User.objects.get(username=username) #to show the name
+    closestUser = findClosestFun(request)
 
     #todo
     # thread_name = (''.join(set(request.user.username + other_user)))
@@ -28,6 +29,6 @@ def chatPage(request,username):
         thread_name = f'chat_{other_user.id}-{request.user.id}'
     message_objs = Message.objects.filter(thread_name=thread_name)
 
-    closestUser = findClosestFun(request)
-    return render(request,"chat/chatPage.html",{"closestUser":closestUser,
+    
+    return render(request,"chat/chatPage2.html",{"closestUser":closestUser,
     "other_user":other_user,"username":username,"message":message_objs})
