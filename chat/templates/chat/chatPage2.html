@@ -143,13 +143,30 @@
                   </div>
                 </div>
 
-                <div class="send-box message-box">
-                  <form >
+                <div class="send-box">
+                  <form onsubmit="return handleFormSubmit(event)">
                     <input type="text" id="message-box" class="form-control" aria-label="message…" placeholder="Write message…">
-
-                    <button type="button" id="submit-button" ><i class="fa fa-paper-plane message-box" aria-hidden="true"></i> Send</button>
+                    <button type="button" id="submit-button"><i class="fa fa-paper-plane message-box" aria-hidden="true"></i> Send</button>
                   </form>
+                  
+                  <script>
+                    function handleFormSubmit(event) {
+                      // Prevent the default form submit behavior
+                      event.preventDefault();
+                  
+                      // Do something with the form data here (e.g. send it to the server)
+                    }
+                    //scroll to the latest message
+                    document.addEventListener("DOMContentLoaded", function() {
+                    // Get the .messanger-list element
+                    var messageList = document.querySelector(".messanger-list");
 
+                    // Scroll the element into view
+                    messageList.lastElementChild.scrollIntoView();
+                  });
+
+                  </script>
+                  
 
                 </div>
               </div>

@@ -17,13 +17,11 @@ chatSocket.onopen = function (e) {
 chatSocket.onclose = function (e) {
   console.log("CONNECTION LOST");
 };
-chatSocket.onmessage = function (e) {
+chatSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
   console.log(data);
 
   if (data.username == user_id) {
-    // document.querySelector("#chat-log").value += data.message + "\n";
-
     document.querySelector(
       ".messanger-list"
     ).innerHTML += `<li class="repaly">
@@ -38,19 +36,35 @@ chatSocket.onmessage = function (e) {
      <span class="time">10:32 am</span>
     </li>`;
   }
+
+  // Get the .messanger-list element
+  var messageList = document.querySelector(".messanger-list");
+
+  // Scroll the element into view
+  messageList.lastElementChild.scrollIntoView();
 };
+
 
 chatSocket.onclose = function (e) {
   console.error("Chat socket closed unexpectedly");
 };
 
-document.querySelector("#message-box").focus();
-document.querySelector("#message-box").onkeyup = function (e) {
-  if (e.keyCode === 13) {
-    // enter, return
-    document.querySelector("#submit-button").click();
+document.addEventListener("DOMContentLoaded", function() {
+  // Get the #message-box element
+  var messageBox = document.querySelector("#message-box");
+  // Give it focus
+  messageBox.focus();
+
+  // Add an event listener for the onkeyup event
+  messageBox.onkeyup = function(e) {
+    // If the key pressed is the enter key
+    if (e.keyCode === 13) {
+      // Simulate a click on the #submit-button element
+      document.querySelector("#submit-button").click();
+    }
   }
-};
+});
+
 
 document.querySelector("#submit-button").onclick = function (e) {
   const messageInputDom = document.querySelector("#message-box");
