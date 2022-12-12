@@ -9,8 +9,8 @@ import json
 import time
 from .models import *
 from geopy.distance import geodesic
+from django.db import IntegrityError
 
-@login_required
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -27,6 +27,38 @@ def index(request):
             user_location.longitude = longitude
             user_location.save()
     return render(request, "location/index.html")
+
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+
+        # Ensure password matches confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "location/register.html", {
+                "message": "Passwords must match."
+            })
+
+        #Check Required Field
+        if username == '' or password == '' or confirmation == '':
+            message="Please input data in the fields"
+            return render(request, "location/register.html",{"message":message})
+
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, password)
+            user.save()
+        except IntegrityError:
+            return render(request, "location/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "location/register.html")
 
 
 def login_view(request):
