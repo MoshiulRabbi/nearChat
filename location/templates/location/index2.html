@@ -1,0 +1,77 @@
+<html>
+  {% load static %}
+  <head>
+    <title>Location Permission</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="text-c">
+      <h1>Location Permission</h1>
+      <p>
+        This website would like to access your location. Please click the button
+        below to grant permission.
+      </p>
+      <button onclick="getLocation()">Grant Permission</button>
+      <p id="location"></p>
+    </div>
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            showPosition, // Success callback
+            showError // Error callback
+          );
+        } else {
+          document.getElementById("location").innerHTML =
+            "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showError(error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            document.getElementById("location").innerHTML =
+              "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            document.getElementById("location").innerHTML =
+              "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            document.getElementById("location").innerHTML =
+              "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            document.getElementById("location").innerHTML =
+              "An unknown error occurred.";
+            break;
+        }
+      }
+
+      function showPosition(position) {
+        saveLocation(position);
+        document.getElementById("location").innerHTML +=
+          "<br>Showing Nearby People to chat with ...";
+        setTimeout(function () {
+          window.location.href = "{% url 'chat' %}";
+        }, 2000); // Delay for 2 seconds
+      }
+
+      function saveLocation(position) {
+        $.ajax({
+          url: "",
+          type: "POST",
+          data: {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function (response) {
+            console.log("Location saved successfully!");
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

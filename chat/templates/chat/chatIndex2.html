@@ -27,7 +27,9 @@
                 <div class="chat-header">
                   <div href="#" class="d-flex align-items-center">
                     <div class="flex-shrink-0">
+                      <a href="{% url 'index' %}">
                       <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                    </a>
                     </div>
                     <div class="flex-grow-1 ms-3">
                       <h4>{{request.user.username}}</h4>
