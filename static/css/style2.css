@@ -276,7 +276,15 @@ message-area
     left: 55%;
     transform: translate(-15%, -80%);
   }
+  a.fas.fa-sign-out-alt {
+    text-decoration: none;
+    vertical-align: top;
+  }
   
+
+
+
+
 .chat-area .form-control:focus {
     outline: 0;
     box-shadow: inherit;

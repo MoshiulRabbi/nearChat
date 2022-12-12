@@ -25,22 +25,15 @@
             <div class="modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="chat-header">
-                  <!-- <div class="msg-search">
-                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search" aria-label="search">
-                    <a class="add" href="#"><img class="profile-image" src="https://mehedihtml.com/chatbox/assets/img/add.svg" alt="add"></a>
-                  </div> -->
                   <div href="#" class="d-flex align-items-center">
                     <div class="flex-shrink-0">
                       <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
                     </div>
                     <div class="flex-grow-1 ms-3">
                       <h4>{{request.user.username}}</h4>
-                      
                     </div>
                     <div class="flex-grow-2 ms-3">
-                      <p class="fas fa-sign-out-alt">Logout</p>
-                      
-                      
+                      <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
                     </div>
                   </div>
 
