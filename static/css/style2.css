@@ -269,7 +269,14 @@ message-area
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
-
+.center-text {
+    font-weight: bold;
+    position: absolute;
+    top: 40%;
+    left: 55%;
+    transform: translate(-15%, -80%);
+  }
+  
 .chat-area .form-control:focus {
     outline: 0;
     box-shadow: inherit;
