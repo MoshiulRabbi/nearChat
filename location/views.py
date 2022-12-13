@@ -26,7 +26,8 @@ def index(request):
             user_location.latitude = latitude
             user_location.longitude = longitude
             user_location.save()
-    return render(request, "location/index2.html")
+    user = request.user
+    return render(request, "location/index3.html",{'user':user})
 
 
 def register(request):

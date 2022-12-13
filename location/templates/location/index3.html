@@ -1,0 +1,106 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NearbyChat - Home </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="{% static 'css/indexStyle.css' %}" rel="stylesheet" />
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  </head>
+  <body>
+    <!-- partial:index.partial.html -->
+    <div class="card">
+      <div class="banner">
+        <img src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"></img>
+      </div>
+      <div class="menu">
+        <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
+      </div>
+      <h2 class="name">{{user.username.capitalize}}</h2>
+      <div id="location" class="title"></div>
+      <br>
+      <p class="title">This website would like to access your location. Please click the button below to grant permission.</p>
+      <div class="actions">
+        <!-- <div class="follow-info">
+          <h2>
+            <a href="#"><span>12</span><small>Followers</small></a>
+          </h2>
+          <h2>
+            <a href="#"><span>1000</span><small>Following</small></a>
+          </h2>
+        </div> -->
+        <div class="follow-btn">
+          <button onclick="getLocation()">Grant Permission</button>
+        </div>
+      </div>
+
+    </div>
+    <!-- partial -->
+    <script>
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              showPosition, // Success callback
+              showError // Error callback
+            );
+          } else {
+            document.getElementById("location").innerHTML =
+              "Geolocation is not supported by this browser.";
+          }
+        }
+  
+        function showError(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              document.getElementById("location").innerHTML =
+                "User denied the request for Geolocation.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              document.getElementById("location").innerHTML =
+                "Location information is unavailable.";
+              break;
+            case error.TIMEOUT:
+              document.getElementById("location").innerHTML =
+                "The request to get user location timed out.";
+              break;
+            case error.UNKNOWN_ERROR:
+              document.getElementById("location").innerHTML =
+                "An unknown error occurred.";
+              break;
+          }
+        }
+  
+        function showPosition(position) {
+          saveLocation(position);
+          document.getElementById("location").innerHTML +=
+            "<br>Showing Nearby People to chat with ...";
+          setTimeout(function () {
+            window.location.href = "{% url 'chat' %}";
+          }, 2000); // Delay for 2 seconds
+        }
+  
+        function saveLocation(position) {
+          $.ajax({
+            url: "",
+            type: "POST",
+            data: {
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function (response) {
+              console.log("Location saved successfully!");
+            },
+          });
+        }
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+  </body>
+</html>
