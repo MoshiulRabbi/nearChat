@@ -5,7 +5,18 @@
 }
 
 body {
-  background-color: #fafafa;
+  background-image: linear-gradient(
+    to bottom right,
+    #ada6a7 0% 65%,
+    #4730c7 95% 100%
+  );
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 2rem 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
 }
 
 main {
