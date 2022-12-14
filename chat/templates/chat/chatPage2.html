@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Chat</title>
+  <title>NearbyChat - Chat </title>
 
   <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
 <!-- partial:index.partial.html -->
@@ -32,7 +32,7 @@
                     </a>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                      <h4>{{request.user.username}}</h4>
+                      <h4>{{request.user.username.capitalize}}</h4>
                     </div>
                     <div class="flex-grow-2 ms-3">
                       <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
@@ -99,8 +99,8 @@
                           <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
                         </div>
                         <div class="flex-grow-1 ms-3">
-                          <h3>{{other_user.username}}</h3>
-                          <p>front end developer chatPage</p>
+                          <h3>{{other_user.username.capitalize}}</h3>
+                          <p>Online</p>
                         </div>
                       </div>
                     </div>
