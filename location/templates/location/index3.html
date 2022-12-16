@@ -2,31 +2,58 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>NearbyChat - Home </title>
+    <title>NearbyChat - Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{% static 'css/indexStyle.css' %}" rel="stylesheet" />
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
   </head>
   <body>
     <!-- partial:index.partial.html -->
     <div class="card">
       <div class="banner">
-        <img src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"></img>
+        <img
+          src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"
+        />
+        <label for="upload-image">
+          <i class="fa fa-camera"></i>
+        </label>
+        <input
+          type="file"
+          name="image"
+          id="upload-image"
+          style="display: none"
+        />
       </div>
+
       <div class="menu">
         <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
       </div>
       <h2 class="name">{{user.username.capitalize}}</h2>
       <div id="location" class="title"></div>
-      <br>
-      <p class="title">This website would like to access your location. Please click the button below to grant permission.</p>
+      <br />
+      <p class="title">
+        This website would like to access your location. Please click the button
+        below to grant permission.
+      </p>
       <div class="actions">
         <!-- <div class="follow-info">
           <h2>
@@ -40,27 +67,26 @@
           <button onclick="getLocation()">Grant Permission</button>
         </div>
       </div>
-
     </div>
     <!-- partial -->
     <script>
-        function getLocation() {
-          if (navigator.geolocation) {
-            // Show the spinner with the class "spinner-border text-dark"
-            document.getElementById("location").innerHTML =
-              '<button class="spinner-border text-dark" role="status" aria-hidden="true"></button>';
-            
-            navigator.geolocation.getCurrentPosition(
-              showPosition, // Success callback
-              showError // Error callback
-            );
-          } else {
-            document.getElementById("location").innerHTML =
-              "Geolocation is not supported by this browser.";
-          }
+      function getLocation() {
+        if (navigator.geolocation) {
+          // Show the spinner with the class "spinner-border text-dark"
+          document.getElementById("location").innerHTML =
+            '<button class="spinner-border text-dark" role="status" aria-hidden="true"></button>';
+
+          navigator.geolocation.getCurrentPosition(
+            showPosition, // Success callback
+            showError // Error callback
+          );
+        } else {
+          document.getElementById("location").innerHTML =
+            "Geolocation is not supported by this browser.";
         }
-  
-        function showError(error) {
+      }
+
+      function showError(error) {
         // Get the element with the id "location"
         var locationElement = document.getElementById("location");
 
@@ -69,13 +95,15 @@
 
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            locationElement.innerHTML = "User denied the request for Geolocation.";
+            locationElement.innerHTML =
+              "User denied the request for Geolocation.";
             break;
           case error.POSITION_UNAVAILABLE:
             locationElement.innerHTML = "Location information is unavailable.";
             break;
           case error.TIMEOUT:
-            locationElement.innerHTML = "The request to get user location timed out.";
+            locationElement.innerHTML =
+              "The request to get user location timed out.";
             break;
           case error.UNKNOWN_ERROR:
             locationElement.innerHTML = "An unknown error occurred.";
@@ -83,8 +111,7 @@
         }
       }
 
-  
-        function showPosition(position) {
+      function showPosition(position) {
         saveLocation(position);
 
         // Remove the spinner with the class "spinner-border text-dark"
@@ -102,22 +129,22 @@
           window.location.href = "{% url 'chat' %}";
         }, 2000); // Delay for 2 seconds
       }
-  
-        function saveLocation(position) {
-          $.ajax({
-            url: "",
-            type: "POST",
-            data: {
-              lat: position.coords.latitude,
-              lon: position.coords.longitude,
-              csrfmiddlewaretoken: "{{ csrf_token }}",
-            },
-            success: function (response) {
-              console.log("Location saved successfully!");
-            },
-          });
-        }
-      </script>
+
+      function saveLocation(position) {
+        $.ajax({
+          url: "",
+          type: "POST",
+          data: {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          success: function (response) {
+            console.log("Location saved successfully!");
+          },
+        });
+      }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
   </body>

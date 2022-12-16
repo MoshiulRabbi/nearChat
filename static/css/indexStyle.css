@@ -47,6 +47,18 @@ a.fas.fa-sign-out-alt {
   background-size: cover;
   border-radius: 50%;
 }
+.banner {
+  position: relative;
+}
+
+.banner i {
+  position: absolute;
+  top: 140px;
+  right: 120px;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
 
 .card .menu {
   width: 100%;
