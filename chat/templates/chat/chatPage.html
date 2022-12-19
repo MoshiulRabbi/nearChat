@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>NearbyChat - Chat </title>
 
-  <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
 <!-- partial:index.partial.html -->
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -190,7 +190,7 @@
 <!-- partial -->
 {{ username|json_script:"other_user_name" }}
 {{request.user.username|json_script:"user_id"}}
-  <script src="{% static 'js/script2.js' %}"></script>
+  <script src="{% static 'js/chatIndex.js' %}"></script>
   <script src="{% static 'js/chat.js' %}"></script>
 </body>
 </html>
