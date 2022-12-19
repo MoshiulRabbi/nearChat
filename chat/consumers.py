@@ -30,20 +30,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.chat_group_name = f'{user_id}-{uuid}'
         else:
             self.chat_group_name = f'{uuid}-{user_id}'
-
         self.chat_group_name = 'chat_%s' % self.chat_group_name
-
 
         await self.channel_layer.group_add(
             self.chat_group_name,
             self.channel_name
         )
-
         # Join room group
         await self.channel_layer.group_add(self.chat_group_name, self.channel_name)
-
-        print(self.chat_group_name)
-
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -59,7 +53,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         username = text_data_json['username']
 
         await self.save_message(username, self.other_user_name, message,self.chat_group_name)
-
 
         # Send message to room group
         await self.channel_layer.group_send(
