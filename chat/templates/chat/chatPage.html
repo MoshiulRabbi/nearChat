@@ -1,236 +1,196 @@
 <!DOCTYPE html>{% load static %}
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Nearby Chat</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-    />
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
-  </head>
-  <body>
-    <!-- partial:index.partial.html -->
-    <section class="main-grid">
-      <aside class="main-side">
-        <header class="common-header">
-          <div class="common-header-start">
-            <button class="u-flex js-user-nav">
-              <img
-                class="profile-image"
-                src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"
-                alt="Elad Shechter"
-              />
-              <div class="common-header-content">
-                <h1 class="common-header-title">{{request.user.username}}</h1>
-              </div>
-            </button>
-          </div>
-          <nav class="common-nav">
-            <ul class="common-nav-list">
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon">🕘</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon icon-status">💬</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon icon-menu" aria-label="menu"></span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <section class="common-alerts"><!-- optional alert message --></section>
-        <section class="common-search">
-          <input
-            type="search"
-            class="text-input"
-            placeholder="Search or start new chat"
-          />
-        </section>
-        <section class="chats">
-          <ul class="chats-list">
-            {% for user in closestUser %}
-            <li class="chats-item">
-              <div
-                class="chats-item-button js-chat-button"
-                role="button"
-                tabindex="0"
-              >
-                <img
-                  class="profile-image"
-                  src="https://picsum.photos/200/300/?blur"
-                  alt="Alon Gruss"
-                />
-                <header class="chats-item-header">
-                  <h3 class="chats-item-title">
-                    <a
-                      class="chats-item-button js-chat-button"
-                      href="{% url 'chatPage' username=user.user.username %}"
-                      >{{user.user.username}}</a
-                    >
-                  </h3>
-                  <time class="chats-item-time">Yesterday</time>
-                </header>
-                <div class="chats-item-content">
-                  <p class="chats-item-last">Great!</p>
-                  <ul class="chats-item-info">
-                    <li class="chats-item-info-item u-hide">
-                      <span class="icon-silent">🔇</span>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>NearbyChat - Chat </title>
+
+  <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
+<!-- partial:index.partial.html -->
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<!-- char-area -->
+<section class="message-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="chat-area">
+          <!-- chatlist -->
+          <div class="chatlist">
+            <div class="modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="chat-header">
+                  <div href="#" class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <a href="{% url 'index' %}">
+                      <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                    </a>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h4>{{request.user.username.capitalize}}</h4>
+                    </div>
+                    <div class="flex-grow-2 ms-3">
+                      <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
+                    </div>
+                  </div>
+
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a onclick="window.open(this.href,'_self');return false;" href="{% url 'chat' %}" >
+                      <button class="nav-link" id="Open-tab" data-bs-toggle="tab" data-bs-target="#Open" type="button" role="tab" aria-controls="Open" aria-selected="false">Nearby</button></a>
                     </li>
-                    <li class="chats-item-info-item">
-                      <span class="unread-messsages"></span>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="Closed-tab" data-bs-toggle="tab" data-bs-target="#Closed" type="button" role="tab" aria-controls="Closed" aria-selected="true">Chat</button>
                     </li>
                   </ul>
                 </div>
+
+                <div class="modal-body">
+                  <!-- chat-list -->
+                  <div class="chat-lists">
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="Closed" role="tabpanel" aria-labelledby="Closed-tab">
+
+                        <!-- chat-list -->
+                        <div class="chat-list">
+                            
+
+                            {% for user in closestUser %}
+                            <a onclick="window.open(this.href,'_self');return false;" href="{% url 'chatPage' username=user.user.username %}" class="d-flex align-items-center">
+                              <div class="flex-shrink-0">
+                                <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                              </div>
+                              <div class="flex-grow-1 ms-3">
+                                  <h3 >
+                                {{user.user.username}}</h3>
+                                <p>Online</p>
+                              </div>
+                          </a>
+                          {% endfor %}
+
+                        </div>
+                        <!-- chat-list -->
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- chat-list -->
+                </div>
               </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </section>
-      </aside>
-      <main class="main-content">
-        <header class="common-header">
-          <div class="common-header-start">
-            <button class="common-button is-only-mobile u-margin-end js-back">
-              <span class="icon icon-back">⬅</span>
-            </button>
-            <button class="u-flex js-side-info-button">
-              <img
-                class="profile-image"
-                src="https://picsum.photos/200/300/?blur"
-                alt="CSS Masters Israel"
-              />
-              <div class="common-header-content">
-                <h2 class="common-header-title">{{other_user.username}}</h2>
-                <p class="common-header-status">Online</p>
+            </div>
+          </div>
+          <!-- chatlist -->
+
+          <!-- chatbox -->
+          <div class="chatbox">
+            <div class="modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="msg-head">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="d-flex align-items-center">
+                        <span class="chat-icon"><img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg" alt="image title"></span>
+                        <div class="flex-shrink-0">
+                          <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h3>{{other_user.username.capitalize}}</h3>
+                          <p>Online</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <ul class="moreoption">
+                        <li class="navbar nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                              <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-body">
+                  <div class="msg-body">
+                    <ul class="messanger-list">
+                      <li>
+                        <div class="divider">
+                          <h6>Today</h6>
+                        </div>
+                      </li>
+                      {% for message in message %}
+                      {% if message.sender == request.user.username %}
+                      <li class="repaly">
+                        <p> {{message.message}} </p>
+                        <span class="time">10:32 am</span>
+                      </li>
+                      {% else %}
+                      <li class="sender">
+                        <p>{{message.message}}</p>
+                        <span class="time">10:35 am</span>
+                      </li>
+                      {% endif %}
+                      {% endfor %}
+
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="send-box">
+                  <form onsubmit="return handleFormSubmit(event)">
+                    <input type="text" id="message-box" class="form-control" aria-label="message…" placeholder="Write message…">
+                    <button type="button" id="submit-button"><i class="fa fa-paper-plane message-box" aria-hidden="true"></i> Send</button>
+                  </form>
+                  
+                  <script>
+                    function handleFormSubmit(event) {
+                      // Prevent the default form submit behavior
+                      event.preventDefault();
+                  
+                      // Do something with the form data here (e.g. send it to the server)
+                    }
+                    //scroll to the latest message
+                    document.addEventListener("DOMContentLoaded", function() {
+                    // Get the .messanger-list element
+                    var messageList = document.querySelector(".messanger-list");
+
+                    // Scroll the element into view
+                    messageList.lastElementChild.scrollIntoView();
+                  });
+
+                  </script>
+                  
+
+                </div>
               </div>
-            </button>
+            </div>
           </div>
-          <nav class="common-nav">
-            <ul class="common-nav-list">
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon">🔎</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon icon-attach">📎</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button
-                  class="common-button u-animation-click js-side-info-button"
-                >
-                  <span class="icon icon-menu" aria-label="menu"></span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <div class="messanger">
-          <ol class="messanger-list">
-            <li class="common-message is-time">
-              <p class="common-message-content">Today{{message.sender}}</p>
-            </li>
-            {% for message in message %}
-            {% if message.sender == request.user.username %}
-
-            <li class="common-message is-you">
-              <p class="common-message-content">{{message.message}}</p>
-              <span class="status is-seen">✔️✔️</span>
-              <time datetime>14:11</time>
-            </li>
-            {% else %}
-            
-            <li class="common-message is-other">
-              <p class="common-message-content">{{message.message}}</p>
-              <time datetime>14:33</time>
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ol>
         </div>
-        <div class="message-box">
-          <button type="button" class="common-button">
-            <span class="icon">😃</span>
-          </button>
-
-          <div class="text-input">
-            <input
-              class="text-input"
-              id="message-box"
-              type="text"
-              placeholder="Type a message"
-            />
-          </div>
-
-          <button id="voice-button" class="common-button">
-            <span class="icon">🎤</span>
-          </button>
-          <button type="button" id="submit-button" class="common-button">
-            <span class="icon">➤</span>
-          </button>
-        </div>
-      </main>
-      <aside class="main-info u-hide">
-        <header class="common-header">
-          <button class="common-button js-close-main-info">
-            <span class="icon">❌</span>
-          </button>
-          <div class="common-header-content">
-            <h3 class="common-header-title">Info</h3>
-          </div>
-        </header>
-        <div class="main-info-content">
-          <section class="common-box">
-            <img
-              class="main-info-image"
-              src="https://picsum.photos/200/300/?blur"
-              alt="CSS Masters Israel"
-            />
-            <h4 class="big-title">CSS Masters Israel</h4>
-            <p class="info-text">Created 6/11/2013 at 22:45</p>
-          </section>
-          <section class="common-box">
-            <h5 class="section-title">Description</h5>
-            <p>
-              Out main channel of the comunity is on Fecbook:
-              <a href=""></a>
-            </p>
-          </section>
-          <section class="common-box">
-            <h5 class="section-title">Other content</h5>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Architecto odit voluptatem magnam sequi dolorem soluta assumenda
-              ipsum iusto culpa velit repudiandae vitae minus minima corporis
-              labore sit, molestias, a ut!
-            </p>
-          </section>
-        </div>
-      </aside>
-    </section>
-    <!-- partial -->
-    <!-- {{other_user.id|json_script:"json-username"}}
-    {{request.user.username|json_script:"json-message-username"}}  
-  
-    here username is the other user name for now
-  -->
-
-    {{ username|json_script:"other_user_name" }}
-    {{request.user.username|json_script:"user_id"}}
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <script src="{% static 'js/script.js' %}"></script>
-    <script src="{% static 'js/chat.js' %}"></script>
-  </body>
+        <!-- chatbox -->
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<!-- char-area -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- partial -->
+{{ username|json_script:"other_user_name" }}
+{{request.user.username|json_script:"user_id"}}
+  <script src="{% static 'js/script2.js' %}"></script>
+  <script src="{% static 'js/chat.js' %}"></script>
+</body>
 </html>

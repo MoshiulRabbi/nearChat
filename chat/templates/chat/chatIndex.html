@@ -1,104 +1,111 @@
 <!DOCTYPE html>{% load static %}
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>CodePen - Reverse Engineering for WhatsApp Web</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
-    />
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
-  </head>
-  <body>
-    <!-- partial:index.partial.html -->
-    <section class="main-grid">
-      <aside class="main-side">
-        <header class="common-header">
-          <div class="common-header-start">
-            <button class="u-flex js-user-nav">
-              <img
-                class="profile-image"
-                src="https://avatars.githubusercontent.com/u/42906079?s=400&u=e9ce48d5181e190990b9b8dcc4ed3b17203d43c6&v=4"
-                alt="Elad Shechter"
-              />
-              <div class="common-header-content">
-                <h1 class="common-header-title">{{request.user.username}}</h1>
-              </div>
-            </button>
-          </div>
-          <nav class="common-nav">
-            <ul class="common-nav-list">
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon">🕘</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon icon-status">💬</span>
-                </button>
-              </li>
-              <li class="common-nav-item">
-                <button class="common-button">
-                  <span class="icon icon-menu" aria-label="menu"></span>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <section class="common-alerts"><!-- optional alert message --></section>
-        <section class="common-search">
-          <input
-            type="search"
-            class="text-input"
-            placeholder="Search or start new chat"
-          />
-        </section>
-        <section class="chats">
-          <ul class="chats-list">
-            {% for user in closest_users %}
-            <li class="chats-item">
-              <div
-                class="chats-item-button js-chat-button"
-                role="button"
-                tabindex="0"
-              >
-                <img
-                  class="profile-image"
-                  src="https://picsum.photos/200/300/?blur"
-                  alt="Alon Gruss"
-                />
-                <header class="chats-item-header">
-                  <h3 class="chats-item-title">
-                    <a href="{% url 'chatPage' username=user.user.username %}"
-                      >{{user.user.username}}</a
-                    >
-                  </h3>
-                  <time class="chats-item-time">Yesterday</time>
-                </header>
-                <div class="chats-item-content">
-                  <p class="chats-item-last">
-                    ({{ user.distance|floatformat:2 }} km away)
-                  </p>
-                  <ul class="chats-item-info">
-                    <li class="chats-item-info-item u-hide">
-                      <span class="icon-silent">🔇</span>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>NearbyChat - Nearby</title>
+
+  <link href="{% static 'css/style2.css' %}" rel="stylesheet" />
+<!-- partial:index.partial.html -->
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.13/css/all.css'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+<!-- char-area -->
+<section class="message-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="chat-area">
+          <!-- chatlist -->
+          <div class="chatlist">
+            <div class="modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="chat-header">
+                  <div href="#" class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <a href="{% url 'index' %}">
+                      <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                    </a>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h4>{{request.user.username.capitalize}}</h4>
+                    </div>
+                    <div class="flex-grow-2 ms-3">
+                      <a href="{% url 'logout' %}" class="fas fa-sign-out-alt">Logout</a>
+                    </div>
+                  </div>
+
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="Open-tab" data-bs-toggle="tab" data-bs-target="#Open" type="button" role="tab" aria-controls="Open" aria-selected="true">Nearby</button>
                     </li>
-                    <li class="chats-item-info-item">
-                      <span class="unread-messsages"></span>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="Closed-tab" data-bs-toggle="tab" data-bs-target="#Closed" type="button" role="tab" aria-controls="Closed" aria-selected="false">Chat</button>
                     </li>
                   </ul>
                 </div>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </section>
-      </aside>
-    </section>
-    <!-- partial -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <script src="{% static 'js/script.js' %}"></script>
-  </body>
+                <div class="modal-body">
+                  <!-- chat-list -->
+                  <div class="chat-lists">
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+                        <!-- chat-list -->
+                        <div class="chat-list">
+                        {% for user in closest_users %}
+                          <a onclick="window.open(this.href,'_self');return false;" href="{% url 'chatPage' username=user.user.username %}" class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                              <img class="profile-image" src="https://avatars.githubusercontent.com/u/42906079?v=4" alt="user img">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h3 >
+                              {{user.user.username}}</h3>
+                              <p>({{ user.distance|floatformat:2 }} km away)</p>
+                            </div>
+                        </a>
+                        {% endfor %}
+
+
+                        </div>
+                        <!-- chat-list -->
+                      </div>
+                      <div class="tab-pane fade" id="Closed" role="tabpanel" aria-labelledby="Closed-tab">
+
+                        <!-- chat-list -->
+
+                        <!-- chat-list -->
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- chat-list -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- chatlist -->
+
+          <!-- chatbox -->
+          <div class="chatbox">
+            <div class="center-text">Chat will appear here</div>
+          </div>
+        </div>
+        <!-- chatbox -->
+
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<!-- char-area -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- partial -->
+  
+  <script src="{% static 'js/script2.js' %}"></script>
+</body>
 </html>
