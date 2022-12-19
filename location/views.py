@@ -27,7 +27,7 @@ def index(request):
             user_location.longitude = longitude
             user_location.save()
     user = request.user
-    return render(request, "location/index3.html",{'user':user})
+    return render(request, "location/index.html",{'user':user})
 
 
 def register(request):
@@ -89,7 +89,7 @@ def findClosestFun(req):
     closest_users = []
     for user_location in user_locations:
         distance = geodesic((current_location.latitude, current_location.longitude), (user_location.latitude, user_location.longitude)).km
-        if distance <= 11:
+        if distance <= 20:
             closest_users.append({'user': user_location.user, 'distance': distance})
     closest_users.sort(key=lambda x: x['distance'])
     return closest_users
