@@ -31,7 +31,7 @@ This Django app allows users to sign up and view the real-time locations of othe
 
 ## Installation with Docker
 1. docker-compose build
-2. docker-compose up
+2. docker-compose up -d
 
 ## Thoughts
 
