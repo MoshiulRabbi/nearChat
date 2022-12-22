@@ -30,7 +30,8 @@ This Django app allows users to sign up and view the real-time locations of othe
 4. Run the development server by running `python manage.py runserver`
 
 ## Installation with Docker
-1.todo
+1. docker-compose build
+2. docker-compose up
 
 ## Thoughts
 
