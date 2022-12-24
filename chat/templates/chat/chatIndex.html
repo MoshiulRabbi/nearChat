@@ -59,7 +59,7 @@
                         {% for user in closest_users %}
                           <a onclick="window.open(this.href,'_self');return false;" href="{% url 'chatPage' username=user.user.username %}" class="d-flex align-items-center">
                             <div class="flex-shrink-0">
-                              <img class="profile-image" src="https://eu.ui-avatars.com/api/?name={{user.user.username}}&background=0D8ABC&color=fff" alt="user img">
+                              <img class="profile-image" src="https://eu.ui-avatars.com/api/?name={{user.user.username}}&background=random" alt="user img">
                             </div>
                             <div class="flex-grow-1 ms-3">
                                 <h3 >
