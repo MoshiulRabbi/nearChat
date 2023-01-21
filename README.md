@@ -2,7 +2,7 @@
 This Django app allows users to sign up and view the real-time locations of other users within a customizable range (default is 20km). Users can also chat with each other through the use of Django Channels and websockets.
 
 ## Preview
-* todo
+![preview](https://github.com/MoshiulRabbi/nearChat/blob/main/nearChat.gif)
 
 ## Features
 1. User sign up and authentication
